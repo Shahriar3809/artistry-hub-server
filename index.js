@@ -28,7 +28,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
   
-    await client.connect();
+    // await client.connect();
 
     const craftCollection = client.db('artAndCraftDB').collection('craft')
 
@@ -40,7 +40,6 @@ async function run() {
 
     app.post('/crafts', async (req, res)=> {
         const newCraft = req.body;
-        
         const result = await craftCollection.insertOne(newCraft);
         res.send(result);
     })
@@ -49,9 +48,8 @@ async function run() {
     app.get('/myCraft/:email', async (req, res)=> {
         const email = req.params.email;
         const query = {user_email: email}
-        const result = await craftCollection.findOne(query)
+        const result = await craftCollection.find(query).toArray();
         res.send(result)
-        console.log(email)
     })
 
     
