@@ -5,13 +5,14 @@ const app = express();
 const port = process.env.port || 5001
 require('dotenv').config();
 
+
 // Middleware
 app.use(cors())
 app.use(express.json())
 
 
 
-
+// URI
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.jryyhrc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 
