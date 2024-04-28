@@ -32,9 +32,16 @@ async function run() {
     // await client.connect();
 
     const craftCollection = client.db('artAndCraftDB').collection('craft')
+    const paintingCollection = client.db('artAndCraftDB').collection('painting')
 
     app.get('/crafts', async (req, res)=> {
         const cursor = craftCollection.find();
+        const result = await cursor.toArray()
+        res.send(result);
+    })
+
+    app.get('/painting', async (req, res)=> {
+        const cursor = paintingCollection.find();
         const result = await cursor.toArray()
         res.send(result);
     })
@@ -45,10 +52,23 @@ async function run() {
         res.send(result);
     })
 
+    app.post('/painting', async (req, res)=> {
+        const newPainting = req.body;
+        const result = await paintingCollection.insertOne(newPainting);
+        res.send(result);
+    })
+
 
     app.get('/myCraft/:email', async (req, res)=> {
         const email = req.params.email;
         const query = {user_email: email}
+        const result = await craftCollection.find(query).toArray();
+        res.send(result)
+    })
+
+    app.get('/category/:sub_category_name', async (req, res)=> {
+        const category_name = req.params.sub_category_name;
+        const query = {sub_category_name: category_name}
         const result = await craftCollection.find(query).toArray();
         res.send(result)
     })
